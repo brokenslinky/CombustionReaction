@@ -13,10 +13,6 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-# VS projects
-CombustionReaction/
-*.pyproj
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
