@@ -66,6 +66,31 @@ class Reaction:
             self.CO_out * Reaction.CO.entropy - (
             self.fuel_in * self.fuel.entropy + self.O2_in * Reaction.O2.entropy)
 
+    @property
+    def usable_energy(self):
+        """(kJ/mol) The amount of usable energy released by this reaction"""
+
+        # Refine this later to include the effects of entropy
+        return self.enthalpy_out
+
+    @property
+    def power(self):
+        """
+        (kJ/50LAir) The power potential of this reaction
+        Value should represent the kW of chemical power available to a 1L engine at 6000RPM
+        (or the hp of chemical power available to a 1L engine at 4478RPM)
+        """
+        airDensity = 0.001225
+        volumeRatioOfO2InAir = 0.209
+        CCAirUsed = self.O2_in * Reaction.O2.molarMass / (Reaction.O2.density * volumeRatioOfO2InAir)
+        return self.usable_energy * 50000 / CCAirUsed
+
+    @property
+    def economy(self):
+        """(kJ/ccFuel) The energy potential of this reaction"""
+        ccFuel = self.fuel_in * self.fuel.molarMass / self.fuel.density
+        return self.usable_energy / ccFuel
+
     def _doCalcs(self):
         """Do calculations for this reaction"""
         self._simplifyReaction()
@@ -118,4 +143,5 @@ if __name__ == "__main__":
         for combustion in combustions:
             afr = combustion.airFuelRatio
             print(str(combustion) + f"    At an air:fuel ratio of {afr:.2f} ({afr / leanAfr:.2f} lambda)")
-            print(f"{combustion.enthalpy_out:.2f} kJ/mol enthalpy released   {combustion.entropy_changee:.2f} J/molK entropy change")
+            print(f"{combustion.power:.2f} kW from 1L engine at 6000RPM")
+            print(f"{combustion.economy:.2f} kJ per cc of this fuel")
