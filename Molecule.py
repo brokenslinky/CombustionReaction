@@ -16,7 +16,7 @@ class Molecule:
         if formula != None:
             formula = formula.upper()
             self.chemicalFormula = formula
-            with open("Molecules.json") as json_file:
+            with open("knownMolecules.json") as json_file:
                 knownMolecules = json.load(json_file)
                 for molecule in knownMolecules:
                     _molecule = knownMolecules[molecule]
@@ -25,13 +25,13 @@ class Molecule:
                         break
         elif name != None:
             import json
-            with open("Molecules.json") as json_file:
+            with open("knownMolecules.json") as json_file:
                 knownMolecules = json.load(json_file)
                 if name in knownMolecules:
                     parse(knownMolecules[name])
                 else:
-                    print("WARNING: This molecule is not known by name in Molecules.json.\n" +
-                        "Please add " + name + " to Molecules.json if you wish to use it by name.")
+                    print("WARNING: This molecule is not known by name in knownMolecules.json.\n" +
+                        "Please add " + name + " to knownMolecules.json if you wish to use it by name.")
         else:
             self._carbon = carbon
             self._hydrogen = hydrogen

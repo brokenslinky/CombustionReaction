@@ -6,8 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0250FEFB-57BD-4267-8141-044311FDEBD1}"
 	ProjectSection(SolutionItems) = preProject
 		CombustionReaction.py = CombustionReaction.py
+		knownMolecules.json = knownMolecules.json
 		Molecule.py = Molecule.py
-		Molecules.json = Molecules.json
 	EndProjectSection
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CombustionReaction", "CombustionReaction\CombustionReaction.pyproj", "{BB1EBD50-0F59-4BBB-8555-575290FB64D7}"
