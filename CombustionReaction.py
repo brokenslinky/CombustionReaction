@@ -46,6 +46,7 @@ class Reaction:
         """The mass ratio of air to fuel for this reaction"""
         airDensity = 0.001225
         volumeRatioOfO2InAir = 0.209
+        O2 = Reaction.O2
         massRatioOfO2InAir = volumeRatioOfO2InAir * O2.density / airDensity
         massOfAirReacted = self.O2_in * O2.molarMass / massRatioOfO2InAir
         massOfFuelReacted = self.fuel_in * self.fuel.molarMass
@@ -54,14 +55,16 @@ class Reaction:
     @property
     def enthalpy_out(self):
         """(kJ/mol) The change in enthalpy from this reaction"""
-        return H2O_out * H2O.enthalpy + CO2_out * CO2.enthalpy + CO_out * CO.enthalpy - (
-            fuel_in * fuel.enthalpy + O2_in * O2.enthalpy)
+        return self.H2O_out * Reaction.H2O.enthalpy + self.CO2_out * Reaction.CO2.enthalpy + \
+            self.CO_out * Reaction.CO.enthalpy - (
+            self.fuel_in * self.fuel.enthalpy + self.O2_in * Reaction.O2.enthalpy)
 
     @property
     def entropy_out(self):
         """(J/molK) The change in entropy from this reaction"""
-        return H2O_out * H2O.entropy + CO2_out * CO2.entropy + CO_out * CO.entropy - (
-            fuel_in * fuel.entropy + O2_in * O2.entropy)
+        return self.H2O_out * Reaction.H2O.entropy + self.CO2_out * Reaction.CO2.entropy + \
+            self.CO_out * Reaction.CO.entropy - (
+            self.fuel_in * self.fuel.entropy + self.O2_in * Reaction.O2.entropy)
 
     def _doCalcs(self):
         """Do calculations for this reaction"""
@@ -115,3 +118,4 @@ if __name__ == "__main__":
         for combustion in combustions:
             afr = combustion.airFuelRatio
             print(str(combustion) + f"    At an air:fuel ratio of {afr:.2f} ({afr / leanAfr:.2f} lambda)")
+            print(f"{combustion.enthalpy_out} kJ/mol enthalpy change   {combustion.entropy_out} J/molK entropy change")
