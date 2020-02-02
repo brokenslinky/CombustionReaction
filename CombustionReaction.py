@@ -53,13 +53,13 @@ class Reaction:
     
     @property
     def enthalpy_out(self):
-        """The change in enthalpy from this reaction"""
+        """(kJ/mol) The change in enthalpy from this reaction"""
         return H2O_out * H2O.enthalpy + CO2_out * CO2.enthalpy + CO_out * CO.enthalpy - (
             fuel_in * fuel.enthalpy + O2_in * O2.enthalpy)
 
     @property
     def entropy_out(self):
-        """The change in entropy from this reaction"""
+        """(J/molK) The change in entropy from this reaction"""
         return H2O_out * H2O.entropy + CO2_out * CO2.entropy + CO_out * CO.entropy - (
             fuel_in * fuel.entropy + O2_in * O2.entropy)
 

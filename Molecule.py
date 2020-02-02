@@ -59,13 +59,13 @@ class Molecule:
     _enthalpy = 0
     @property
     def enthalpy(self):
-        """The enthalpy of this molecule"""
+        """(kJ/mol) The enthalpy of formation for this molecule"""
         return self._enthalpy
     
     _entropy = 0
     @property
     def entropy(self):
-        """The entropy of this molecule"""
+        """(J/molK) The molar entropy of this molecule"""
         return self._entropy
     @entropy.setter
     def entropy(self, entropy):
@@ -74,7 +74,7 @@ class Molecule:
     _density = 0
     @property
     def density(self):
-        """(g / cc) The density of fluid composed of this molecule at room temperature"""
+        """(g/cc) The density of fluid composed of this molecule at STP"""
         return self._density
     @density.setter
     def density(self, density):
@@ -82,7 +82,7 @@ class Molecule:
     
     @property
     def molarMass(self):
-        """(g / mol) The mass of this molecule"""
+        """(g/mol) The molar mass of this molecule"""
         return 12.0107 * self._carbon + 1.00794 * self._hydrogen + 15.999 * self._oxygen
 
     @property
