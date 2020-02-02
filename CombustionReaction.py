@@ -9,10 +9,12 @@ class Reaction:
     CO2_out = 0
 
     def _simplifyReaction(self):
+        """Reduce the reaction equation as far as possible"""
         canBeSimplified = True
         while canBeSimplified:
             canBeSimplified = False
-            primeNumbers = [2, 3, 5, 7, 11, 13, 17, 19]
+            primeNumbers = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59]
+            # Should only need 2 how it is currently written (limited by fuel_in = 4)
             for divisor in primeNumbers:
                 numerators = [self.fuel_in, self.O2_in, self.H2O_out, self.CO_out, self.CO2_out]
                 min = numerators[0]
@@ -46,6 +48,7 @@ class Reaction:
         return massOfAirReacted / massOfFuelReacted
 
     def _doCalcs(self):
+        """Do calculations for this reaction"""
         self._simplifyReaction()
     
     def RichCombustion(fuel: Molecule):
@@ -73,6 +76,7 @@ class Reaction:
         return reaction
 
     def __str__(self):
+        """Define str(Reaction reaction)"""
         tmpStr = f"{self.fuel_in}{self.fuel.chemicalFormula} + {self.O2_in}O2 -> {self.H2O_out}H2O"
         if self.CO_out > 0 : 
             tmpStr += f" + {self.CO_out}CO"
