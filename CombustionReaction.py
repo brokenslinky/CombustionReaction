@@ -54,14 +54,14 @@ class Reaction:
     
     @property
     def enthalpy_out(self):
-        """(kJ/mol) The change in enthalpy from this reaction"""
-        return self.H2O_out * Reaction.H2O.enthalpy + self.CO2_out * Reaction.CO2.enthalpy + \
-            self.CO_out * Reaction.CO.enthalpy - (
-            self.fuel_in * self.fuel.enthalpy + self.O2_in * Reaction.O2.enthalpy)
+        """(kJ/mol) The enthalpy released by this reaction"""
+        return self.fuel_in * self.fuel.enthalpy + self.O2_in * Reaction.O2.enthalpy - (
+            self.H2O_out * Reaction.H2O.enthalpy + self.CO2_out * Reaction.CO2.enthalpy + \
+            self.CO_out * Reaction.CO.enthalpy)
 
     @property
-    def entropy_out(self):
-        """(J/molK) The change in entropy from this reaction"""
+    def entropy_change(self):
+        """((J/K)/mol) The change in entropy during this reaction"""
         return self.H2O_out * Reaction.H2O.entropy + self.CO2_out * Reaction.CO2.entropy + \
             self.CO_out * Reaction.CO.entropy - (
             self.fuel_in * self.fuel.entropy + self.O2_in * Reaction.O2.entropy)
@@ -118,4 +118,4 @@ if __name__ == "__main__":
         for combustion in combustions:
             afr = combustion.airFuelRatio
             print(str(combustion) + f"    At an air:fuel ratio of {afr:.2f} ({afr / leanAfr:.2f} lambda)")
-            print(f"{combustion.enthalpy_out} kJ/mol enthalpy change   {combustion.entropy_out} J/molK entropy change")
+            print(f"{combustion.enthalpy_out:.2f} kJ/mol enthalpy released   {combustion.entropy_changee:.2f} J/molK entropy change")
