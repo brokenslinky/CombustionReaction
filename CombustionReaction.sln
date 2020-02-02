@@ -3,7 +3,14 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CombustionReaction", "CombustionReaction\CombustionReaction.pyproj", "{C4B093F9-2104-469B-A68E-8004C61F14C8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0250FEFB-57BD-4267-8141-044311FDEBD1}"
+	ProjectSection(SolutionItems) = preProject
+		CombustionReaction.py = CombustionReaction.py
+		Molecule.py = Molecule.py
+		Molecules.json = Molecules.json
+	EndProjectSection
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "CombustionReaction", "CombustionReaction\CombustionReaction.pyproj", "{71E2250F-D1A9-4398-A225-B0A8E097AA65}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,8 +18,8 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C4B093F9-2104-469B-A68E-8004C61F14C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C4B093F9-2104-469B-A68E-8004C61F14C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71E2250F-D1A9-4398-A225-B0A8E097AA65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71E2250F-D1A9-4398-A225-B0A8E097AA65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
