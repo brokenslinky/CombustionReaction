@@ -1,0 +1,97 @@
+{
+  "knownMolecules": {
+    "oxygen": {
+      "formula": "O2",
+      "enthalpy": 0.0,
+      "entropy": 205.07,
+      "density":  0.001429
+    },
+    "water": {
+      "formula": "H2O",
+      "enthalpy": -241.83,
+      "entropy": 188.84
+    },
+    "carbon monoxide": {
+      "formula": "CO",
+      "enthalpy": -110.525,
+      "entropy": 197.674
+    },
+    "carbon dioxide": {
+      "formula": "CO2",
+      "enthalpy": -393.509,
+      "entropy": 213.74
+    },
+    "octane": {
+      "formula": "C8H18",
+      "enthalpy": -249.95,
+      "entropy": 361.2,
+      "density": 0.703
+    },
+    "ethanol": {
+      "formula": "C2H6O",
+      "enthalpy": -277.38,
+      "entropy": 159.9,
+      "density": 0.789
+    },
+    "methanol": {
+      "formula": "CH4O",
+      "enthalpy": -238.4,
+      "entropy": 127.2,
+      "density": 0.792
+    },
+    "heptane": {
+      "formula": "C7H16",
+      "enthalpy": -224.5,
+      "entropy": 328.57,
+      "density": 0.6795
+    },
+    "ethylbenzene": {
+      "formula": "C8H10",
+      "enthalpy": 12.5,
+      "entropy": 255,
+      "density": 0.8665
+    },
+    "toluene": {
+      "formula": "C7H8",
+      "enthalpy": 12,
+      "entropy": 220.96,
+      "Density": 0.87
+    },
+    "xylenes": {
+      "formula": "C8H10",
+      "enthalpy": -25,
+      "entropy": 250,
+      "density": 0.864
+    },
+    "isopropyl alcohol": {
+      "formula": "C3H8O",
+      "enthalpy": -318.2,
+      "entropy": 180,
+      "density": 0.786
+    },
+    "hydrogen": {
+      "formula": "H2",
+      "enthalpy": 2.016,
+      "entropy": 130.68,
+      "density": 0.08988
+    },
+    "acetone": {
+      "formula": "C3H6O",
+      "enthalpy": -250.03,
+      "entropy": 200.4,
+      "density": 0.7845
+    },
+    "ethylene glycol": {
+      "formula": "C2H6O2",
+      "enthalpy": -460,
+      "entropy": 166.9,
+      "density": 1.1132
+    },
+    "1-Propanol": {
+      "formula": "C3H8O",
+      "enthalpy": -302.5,
+      "entropy": 192.8,
+      "density": 0.803
+    }
+  }
+}

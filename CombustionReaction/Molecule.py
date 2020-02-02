@@ -1,0 +1,134 @@
+class Molecule:
+    """The smallest unit of a particular chemical"""
+    
+    def __init__(self, carbon = 0, hydrogen = 0, oxygen = 0, density = None, formula = None, name = None):
+        self._density = density
+        import json
+        def parse(jsonMolecule):
+            if "formula" in jsonMolecule:
+                self.chemicalFormula = jsonMolecule["formula"]
+            if "density" in jsonMolecule:
+                self._density = jsonMolecule["density"]
+            if "enthalpy" in jsonMolecule:
+                self._enthalpy = jsonMolecule["enthalpy"]
+            if "entropy" in jsonMolecule:
+                self._entropy = jsonMolecule["entropy"]
+        if formula != None:
+            formula = formula.upper()
+            self.chemicalFormula = formula
+            with open("molecules.json") as json_file:
+                data = json.load(json_file)
+                knownMolecules = data["knownMolecules"]
+                for molecule in knownMolecules:
+                    _molecule = knownMolecules[molecule]
+                    if _molecule["formula"] == formula:
+                        parse(_molecule)
+                        break
+        elif name != None:
+            import json
+            with open("molecules.json") as json_file:
+                data = json.load(json_file)
+                if name in data["knownMolecules"]:
+                    parse(data["knownMolecules"][name])
+                else:
+                    print("WARNING: This molecule is not known by name in molecules.json.\n" +
+                        "Please add " + name + " to molecules.json if you wish to use it by name.")
+        else:
+            self._carbon = carbon
+            self._hydrogen = hydrogen
+            self._oxygen = oxygen
+            self._density = density
+
+    _carbon = 0
+    @property
+    def carbon(self):
+        """The number of carbon atoms in this molecule"""
+        return self._carbon
+    
+    _hydrogen = 0
+    @property
+    def hydrogen(self):
+        """The number of hydrogen atoms in this molecule"""
+        return self._hydrogen
+    
+    _oxygen = 0
+    @property
+    def oxygen(self):
+        """The number of oxygen atoms in this molecule"""
+        return self._oxygen
+    
+    _enthalpy = 0
+    @property
+    def enthalpy(self):
+        """The enthalpy of this molecule"""
+        return self._enthalpy
+    
+    _entropy = 0
+    @property
+    def entropy(self):
+        """The entropy of this molecule"""
+        return self._entropy
+    @entropy.setter
+    def entropy(self, entropy):
+        self._entropy = entropy
+    
+    _density = 0
+    @property
+    def density(self):
+        """(g / cc) The density of fluid composed of this molecule at room temperature"""
+        return self._density
+    @density.setter
+    def density(self, density):
+        self._density = density
+    
+    @property
+    def molarMass(self):
+        """(g / mol) The mass of this molecule"""
+        return 12.0107 * self._carbon + 1.00794 * self._hydrogen + 15.999 * self._oxygen
+
+    @property
+    def chemicalFormula(self):
+        """The chemical formula for this molecule"""
+        formula = ""
+        if self._carbon > 0:
+            formula += "C" + str(self._carbon)
+        if self._hydrogen > 0:
+            formula += "H" + str(self._hydrogen)
+        if self._oxygen > 0:
+            formula += "O" + str(self._oxygen)
+        return formula
+
+    @chemicalFormula.setter
+    def chemicalFormula(self, formula):
+        """
+        Set the formula of this molecule
+        Will affect the number of each atom type
+        """
+        def getNumber(formula, index):
+            """Gets the number of atoms of the type indicated by the index"""
+            if index == len(formula) - 1:
+                return 1
+            index += 1
+            if not formula[index].isnumeric():
+                return 1
+            tmpString = ""
+            while (index < len(formula) and formula[index].isnumeric()):
+                tmpString += formula[index]
+                index += 1
+            return int(tmpString)
+
+        index = formula.upper().find('C')
+        if index > -1:
+            self._carbon = getNumber(formula, index)
+        else: self._carbon = 0
+        index = formula.upper().find('H')
+        if index > -1:
+            self._hydrogen = getNumber(formula, index)
+        else: self._hydrogen = 0
+        index = formula.upper().find('O')
+        if index > -1:
+            self._oxygen = getNumber(formula, index)
+        else: self._oxygen = 0
+
+    def __str__(self):
+        return f"{self.chemicalFormula}, density: {self._density}, enthalpy: {self.enthalpy}, entropy: {self.entropy}"
