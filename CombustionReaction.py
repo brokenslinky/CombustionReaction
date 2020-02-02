@@ -82,7 +82,11 @@ class Reaction:
 
 if __name__ == "__main__":
     while(True):
-        response = input("What is the name of this chemical?\n")
+        response = input("What is the name of this chemical? (respond L for a list of known chemicals)\n")
+        response = response.lower()
+        if response == "list" or response =="l" or response == "ls":
+            Molecule.ListKnown()
+            continue
         molecule = Molecule(name=response)
         if molecule.chemicalFormula == "":
             molecule = Molecule(formula=response)

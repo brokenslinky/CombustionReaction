@@ -129,5 +129,12 @@ class Molecule:
             self._oxygen = getNumber(formula, index)
         else: self._oxygen = 0
 
+    def ListKnown():
+        """List all Molecules known by knownMolecules.json"""
+        import json
+        with open("knownMolecules.json") as knownMolecules:
+            for molecule in json.load(knownMolecules):
+                print(molecule)
+
     def __str__(self):
         return f"{self.chemicalFormula}, density: {self._density}, enthalpy: {self.enthalpy}, entropy: {self.entropy}"
