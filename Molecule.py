@@ -1,7 +1,7 @@
 class Molecule:
     """The smallest unit of a particular chemical"""
     
-    def __init__(self, carbon = 0, hydrogen = 0, oxygen = 0, density = None, formula = None, name = None):
+    def __init__(self, carbon = 0, hydrogen = 0, oxygen = 0, nitrogen = 0, density = None, formula = None, name = None):
         self._density = density
         import json
         def parse(jsonMolecule):
@@ -13,6 +13,8 @@ class Molecule:
                 self._enthalpy = jsonMolecule["enthalpy"]
             if "entropy" in jsonMolecule:
                 self._entropy = jsonMolecule["entropy"]
+            if "specific_heat" in jsonMolecule:
+                self._specificHeat = jsonMolecule["specific_heat"]
         if formula != None:
             formula = formula.upper()
             self.chemicalFormula = formula
@@ -36,6 +38,7 @@ class Molecule:
             self._carbon = carbon
             self._hydrogen = hydrogen
             self._oxygen = oxygen
+            self._nitrogen = nitrogen
             self._density = density
 
     _carbon = 0
@@ -55,6 +58,12 @@ class Molecule:
     def oxygen(self):
         """The number of oxygen atoms in this molecule"""
         return self._oxygen
+
+    _nitrogen = 0
+    @property
+    def nitrogen(self):
+        """The number of oxygen atoms in this molecule"""
+        return self._nitrogen
     
     _enthalpy = 0
     @property
@@ -79,11 +88,20 @@ class Molecule:
     @density.setter
     def density(self, density):
         self._density = density
+
+    _specificHeat = 1.
+    @property
+    def specificHeat(self):
+        """(J/gK) The specific heat of this molecule"""
+        return self._specificHeat
+    @specificHeat.setter
+    def specificHeat(self, specificHeat):
+        self._specificHeat = specificHeat
     
     @property
     def molarMass(self):
         """(g/mol) The molar mass of this molecule"""
-        return 12.0107 * self._carbon + 1.00794 * self._hydrogen + 15.999 * self._oxygen
+        return 12.0107 * self._carbon + 1.00794 * self._hydrogen + 15.999 * self._oxygen + 14.0067 * self._nitrogen
 
     @property
     def chemicalFormula(self):
@@ -95,6 +113,8 @@ class Molecule:
             formula += "H" + str(self._hydrogen)
         if self._oxygen > 0:
             formula += "O" + str(self._oxygen)
+        if self._nitrogen > 0:
+            formula += "N" + str(self._nitrogen)
         return formula
 
     @chemicalFormula.setter
@@ -128,6 +148,10 @@ class Molecule:
         if index > -1:
             self._oxygen = getNumber(formula, index)
         else: self._oxygen = 0
+        index = formula.upper().find('N')
+        if index > -1:
+            self._nitrogen = getNumber(formula, index)
+        else: self._nitrogen = 0
 
     def ListKnown():
         """List all Molecules known by knownMolecules.json"""

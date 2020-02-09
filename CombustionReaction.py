@@ -6,12 +6,15 @@ class Reaction:
     H2O = Molecule(formula="H2O")
     CO = Molecule(formula="CO")
     CO2 = Molecule(formula="CO2")
+    N2 = Molecule(formula="N2")
 
     fuel_in = 0
     O2_in = 0
     H2O_out = 0
     CO_out = 0
     CO2_out = 0
+
+    _initial_temperature = 300 # K
 
     def _simplifyReaction(self):
         """Reduce the reaction equation as far as possible"""
@@ -44,13 +47,8 @@ class Reaction:
     @property
     def airFuelRatio(self):
         """The mass ratio of air to fuel for this reaction"""
-        airDensity = 0.001225
-        volumeRatioOfO2InAir = 0.209
-        O2 = Reaction.O2
-        massRatioOfO2InAir = volumeRatioOfO2InAir * O2.density / airDensity
-        massOfAirReacted = self.O2_in * O2.molarMass / massRatioOfO2InAir
         massOfFuelReacted = self.fuel_in * self.fuel.molarMass
-        return massOfAirReacted / massOfFuelReacted
+        return self._mass_air / massOfFuelReacted
     
     @property
     def enthalpy_out(self):
@@ -58,20 +56,57 @@ class Reaction:
         return self.fuel_in * self.fuel.enthalpy + self.O2_in * Reaction.O2.enthalpy - (
             self.H2O_out * Reaction.H2O.enthalpy + self.CO2_out * Reaction.CO2.enthalpy + \
             self.CO_out * Reaction.CO.enthalpy)
-
+    
+    @property
+    def entropy_start(self):
+        """((J/K)/mol) The entropy before this reaction"""
+        return self.fuel_in * self.fuel.entropy + self.O2_in * Reaction.O2.entropy
+    @property
+    def entropy_end(self):
+        """((J/K)/mol) The entropy after this reaction"""
+        return self.H2O_out * Reaction.H2O.entropy + self.CO2_out * Reaction.CO2.entropy + \
+            self.CO_out * Reaction.CO.entropy
     @property
     def entropy_change(self):
         """((J/K)/mol) The change in entropy during this reaction"""
-        return self.H2O_out * Reaction.H2O.entropy + self.CO2_out * Reaction.CO2.entropy + \
-            self.CO_out * Reaction.CO.entropy - (
-            self.fuel_in * self.fuel.entropy + self.O2_in * Reaction.O2.entropy)
+        return self.entropy_end - self.entropy_start
+
+    @property
+    def _mass_air(self):
+        """(g) The mass of air required for 1 mol of this Reaction"""
+        airDensity = 0.001225
+        volumeRatioOfO2InAir = 0.209
+        O2 = Reaction.O2
+        massRatioOfO2InAir = volumeRatioOfO2InAir * O2.density / airDensity
+        return self.O2_in * O2.molarMass / massRatioOfO2InAir
+
+
+    @property 
+    def cv_temperature_change(self):
+        """
+        (K) The temperature change of this reaction at constant volume
+
+        ***Assumption*** This is a combustion reaction in Earth's atmosphere
+        """
+        heat_capacity = Reaction.CO2._specificHeat * self.CO2_out * Reaction.CO2.molarMass + (
+            Reaction.CO._specificHeat * self.CO_out * Reaction.CO.molarMass + 
+            Reaction.H2O._specificHeat * self.H2O_out * Reaction.H2O.molarMass + 
+            Reaction.N2._specificHeat * 0.79 * self._mass_air) # ((J/K)/mol)
+        return -self._initial_temperature * self.entropy_change / (
+            heat_capacity - self.entropy_end / 2.)
+        # That - sign isn't in my derivation, but the magnitude seems right...
 
     @property
     def usable_energy(self):
         """(kJ/mol) The amount of usable energy released by this reaction"""
-
-        # Refine this later to include the effects of entropy
-        return self.enthalpy_out
+        # heatEnergy = (self._initial_temperature + self.cv_temperature_change / 2.) * self.entropy_change
+        # ^ This one makes more sense to me ^
+        heatEnergy = (self._initial_temperature + self.cv_temperature_change) * self.entropy_change
+        # Rough estimate
+        print(f"temperature change: {self.cv_temperature_change:2f} K")
+        # return self.enthalpy_out - heatEnergy / 1000.
+        # ^ This one makes more sense to me ^
+        return self.enthalpy_out + heatEnergy / 1000.
 
     @property
     def power(self):
@@ -142,6 +177,7 @@ if __name__ == "__main__":
         leanAfr = combustions[0].airFuelRatio
         for combustion in combustions:
             afr = combustion.airFuelRatio
-            print(str(combustion) + f"    At an air:fuel ratio of {afr:.2f} ({afr / leanAfr:.2f} lambda)")
+            print(str(combustion) + f"    At air:fuel ratio of {afr:.2f}")
             print(f"{combustion.power:.2f} kW from 1L engine at 6000RPM")
             print(f"{combustion.economy:.2f} kJ per cc of this fuel")
+            print()
